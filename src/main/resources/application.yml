@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+ping:
+  environment-id: ${PING_ENV_ID}
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          nauth:
+            user-name-attribute: name
+            issuer-uri: http://localhost:9090/auth/realms/test-realm
+          pingidentity:
+            issuer-uri: https://auth.pingone.eu/${ping.environment-id}/as
+          salesforce:
+            issuer-uri: https://veeam-af-dev-ed.develop.my.salesforce.com
+#            token-uri: https://veeam-af-dev-ed.develop.lightning.force.com/services/oauth2/token
+#            authorization-uri: https://veeam-af-dev-ed.develop.lightning.force.com/services/oauth2/authorize
+#            user-info-uri: https://veeam-af-dev-ed.develop.lightning.force.com/services/oauth2/userinfo
+#            user-info-authentication-method: form
+#            jwk-set-uri: https://veeam-af-dev-ed.develop.my.salesforce.com/id/keys
+        registration:
+          nauth:
+            client-id: test-client
+            client-secret: c582f8c2-2f92-4066-8128-e23276ad64b7
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            scope: openid
+          pingidentity:
+            client-id: ${PING_CLIENT_ID}
+            client-secret: ${PING_CLIENT_SECRET}
+            provider: pingidentity
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            scope: email,openid
+            redirect-uri: http://localhost:8080/login/oauth2/code/pingidentity
+          salesforce:
+            client-id: ${SF_CLIENT_ID}
+            client-secret: ${SF_CLIENT_SECRET}
+            provider: salesforce
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            scope: email,openid
+            redirect-uri: http://localhost:8080/login/oauth2/code/salesforce

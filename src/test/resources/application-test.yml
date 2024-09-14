@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+PING_ENV_ID: test
+PING_CLIENT_ID: dummy
+PING_CLIENT_SECRET: dummy
+SF_CLIENT_ID: dummy
+SF_CLIENT_SECRET: dummy
+
+ping:
+  environment-id: dummy
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          nauth:
+            user-name-attribute: name
+            issuer-uri: http://localhost:9090/auth/realms/test-realm
+        registration:
+          nauth:
+            client-id: test-client
+            client-secret: c582f8c2-2f92-4066-8128-e23276ad64b7
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            scope: openid

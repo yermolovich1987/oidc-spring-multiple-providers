@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.10
+    hostname: zookeeper
+    ports:
+      - "3181:3181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 3181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.10
+    hostname: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "39093:39093"
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:3181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:39093,PLAINTEXT_HOST://localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.3.10
+    hostname: schema-registry
+    depends_on:
+      - zookeeper
+      - broker
+    ports:
+      - "38081:38081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:3181'
+
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:15.0.2
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/keycloak/test-realm-config.json
+      # For in-memory h2 instance
+      DB_VENDOR: h2
+    ports:
+      - "9090:8080"
+    volumes:
+      - ./keycloak/test-realm-config.json:/tmp/keycloak/test-realm-config.json
+
+### Commented since not needed for now.
+#  restproxy:
+#    image: confluentinc/cp-kafka-rest:6.1.1
+#    depends_on:
+#      - schema-registry
+#    ports:
+#      - 38086:38086
+#    environment:
+#      KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:39093'
+#      KAFKA_REST_LISTENERS: 'http://0.0.0.0:38086'
+#      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:38081'
+#      KAFKA_REST_ZOOKEEPER_CONNECT: 'zookeeper:3181'
