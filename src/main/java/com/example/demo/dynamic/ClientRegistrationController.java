@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("idp")
@@ -25,6 +26,7 @@ public class ClientRegistrationController {
                 .clientId(idpDetails.getClientId())
                 .clientSecret(idpDetails.getClientSecret())
                 .clientAuthenticationMethod(idpDetails.getClientAuthenticationMethod())
+                .scope(Set.of("openid", "profile", "email", "name"))
                 .build();
 
 
@@ -40,17 +42,4 @@ public class ClientRegistrationController {
     List<PerCompanyRegistration> getAllRegisteredIdps() {
         return identityProviderService.getAllIdpRegistrations();
     }
-
-//    @PostConstruct
-//    void postConstruct() {
-//        var registration = ClientRegistrations
-//                .fromOidcIssuerLocation("https://auth.pingone.eu/fd252206-ed6e-4760-b0d6-ec4fcbeb040e/as")
-//                .clientName("testDynamicPing")
-//                .clientId("df78ef33-896d-411d-bd96-1d7580e4af3d")
-//                .clientSecret("iwIcjJk69J3OEftWDK0HuHMrd44H8jlGcUoyZWvbQmGCuU8widWo9vueLln6GGg.")
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-//                .build();
-//
-//        registerNewIdp();
-//    }
 }

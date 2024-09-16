@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                 .oauth2Login(oauth2 -> oauth2
                         .clientRegistrationRepository(dynamicOAuth2ClientRegistrationRepository)
                         .loginPage("/login")
-//                        .defaultSuccessUrl("/test-resource/token")
+                        .defaultSuccessUrl("/home")
                 );
 
         return http.build();
