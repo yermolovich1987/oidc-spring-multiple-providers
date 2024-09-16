@@ -12,19 +12,13 @@ public class DynamicOAuth2ClientRegistrationRepository implements ClientRegistra
 
     @Override
     public ClientRegistration findByRegistrationId(String registrationId) {
-        // TODO How to extract the proper client registration?
-        var registrations = identityProviderService.getIdpRegistrationsForCompany("testCompany");
-
-        return registrations.stream()
+        return identityProviderService.getAllIdpRegistrations().stream()
                 .filter(registration -> registration.clientRegistration().getRegistrationId().equalsIgnoreCase(registrationId))
                 .findAny()
                 .map(PerCompanyRegistration::clientRegistration)
                 .orElseThrow(() -> new IllegalStateException("registration not found"));
     }
-
-    /**
-     * @return
-     */
+    
     @Override
     public Iterator<ClientRegistration> iterator() {
         return identityProviderService.getAllIdpRegistrations().stream().map(PerCompanyRegistration::clientRegistration).iterator();

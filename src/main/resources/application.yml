@@ -4,7 +4,16 @@ server:
 ping:
   environment-id: ${PING_ENV_ID}
 
-#spring:
+logging:
+  level:
+    org.thymeleaf: TRACE
+    org.thymeleaf.spring5: TRACE
+
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
 #  security:
 #    oauth2:
 #      client:

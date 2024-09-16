@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>Login with:</h1>
+<ul>
+    <li th:each="provider : ${providers}">
+        <a th:href="@{'/oauth2/authorization/' + ${provider.registrationId}}" th:text="${provider.name}">Provider</a>
+    </li>
+</ul>
+</body>
+</html>
