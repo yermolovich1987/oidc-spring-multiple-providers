@@ -2,7 +2,6 @@ package com.example.demo.dynamic;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -10,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,8 +17,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 public class SimpleInMemoryIdentityProviderService implements IdentityProviderService {
     private final Map<String, List<PerCompanyRegistration>> clientRegistrations = new ConcurrentHashMap<>();
-//    private final DefaultLoginPageGeneratingFilter loginPageGeneratingFilter;
 
+    @Override
+    public Set<String> getAllAvailableCompanies() {
+        return clientRegistrations.keySet();
+    }
 
     @Override
     public List<PerCompanyRegistration> getAllIdpRegistrations() {

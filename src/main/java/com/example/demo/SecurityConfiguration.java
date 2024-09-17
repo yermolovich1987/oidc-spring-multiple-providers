@@ -26,14 +26,14 @@ public class SecurityConfiguration {
                                            DynamicOAuth2ClientRegistrationRepository dynamicOAuth2ClientRegistrationRepository) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/idp/**").permitAll()
-                        .requestMatchers("/", "/login**", "/error**").permitAll()
+                        .requestMatchers("/select-company", "/providers", "/login**", "/error**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // This is required to execute POST requests without CSRF tokens
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2Login(oauth2 -> oauth2
                         .clientRegistrationRepository(dynamicOAuth2ClientRegistrationRepository)
-                        .loginPage("/login")
+                        .loginPage("/select-company")
                         .defaultSuccessUrl("/home")
                 );
 

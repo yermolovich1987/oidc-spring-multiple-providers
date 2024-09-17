@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select Company</title>
+</head>
+<body>
+<h1>Select Company</h1>
+<form action="/providers" method="post">
+    <label for="companyName">Company Name:</label>
+    <select id="companyName" name="companyName">
+        <option value="" disabled selected>Select your company</option>
+        <option th:each="company : ${companies}" th:value="${company}" th:text="${company}"></option>
+    </select>
+    <button type="submit">Continue</button>
+</form>
+</body>
+</html>
