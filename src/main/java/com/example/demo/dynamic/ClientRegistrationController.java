@@ -23,10 +23,11 @@ public class ClientRegistrationController {
         var registration = ClientRegistrations
                 .fromOidcIssuerLocation(idpDetails.getIssuerUri())
                 .clientName(idpDetails.getClientName())
+                .registrationId(idpDetails.getClientName())
                 .clientId(idpDetails.getClientId())
                 .clientSecret(idpDetails.getClientSecret())
                 .clientAuthenticationMethod(idpDetails.getClientAuthenticationMethod())
-                .scope(Set.of("openid", "profile", "email", "name"))
+                .scope(Set.of("openid", "profile", "email"))
                 .build();
 
 
