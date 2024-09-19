@@ -28,6 +28,7 @@ public class ClientRegistrationController {
                 .clientSecret(idpDetails.getClientSecret())
                 .clientAuthenticationMethod(idpDetails.getClientAuthenticationMethod())
                 .scope(Set.of("openid", "profile", "email"))
+//                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .build();
 
 

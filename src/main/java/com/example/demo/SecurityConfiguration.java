@@ -40,8 +40,8 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-//    @Bean
-//    public AuthenticationSuccessHandler successHandler() {
-//        return new SimpleUrlAuthenticationSuccessHandler("/home");
-//    }
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler("/home");
+    }
 }
